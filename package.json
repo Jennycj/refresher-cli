@@ -1,6 +1,5 @@
 {
   "name": "refresher-cli",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "bin/index.js",
@@ -12,7 +11,7 @@
   },
   "keywords": [],
   "author": "Jennifer Ezeobi",
-  "license": "NO LICENCE",
+  "license": "MIT",
   "dependencies": {
     "commander": "^9.1.0"
   }
