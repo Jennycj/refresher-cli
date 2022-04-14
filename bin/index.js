@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
-const cli = require("commander");
+const cli = require("commander")
 const pkg = require("../package.json")
+const run = require("./index-connect")
 
 cli
- .description("An interface to create timelocked pswsh transactions and refresh the timelock")
+ .description("An interface to create timelocked p2wsh transactions and refresh the timelock")
  .name("refresher-cli")
- .usage("<command>")
  .version(pkg.version)
  .parse(process.argv);
-
-console.log("Hello fron here!");
+ 
+cli.command("connect")
+   .description("Connect to bitcoin core")
+   .action(run())
