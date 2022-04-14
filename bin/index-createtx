@@ -1,0 +1,59 @@
+const create = function() {
+    const RpcClient = require('bitcoind-rpc');
+  
+    const config = {
+      protocol: 'http',
+      user: 'test',
+      pass: 'test',
+      host: '127.0.0.1',
+      port: '38332',
+    };
+  
+    const rpc = new RpcClient(config);
+
+    function createNewWallet(name) {
+        try {
+        name = process.argv[3]
+        console.log(name)
+        console.log("wallet created", rpc.createWallet(name))
+        return rpc.createWallet(name)
+            
+        } catch (error) {
+            console.log(error);
+        }  
+        
+    }
+  
+    createNewWallet();
+};
+
+const get = function() {
+    const RpcClient = require('bitcoind-rpc');
+  
+    const config = {
+      protocol: 'http',
+      user: 'test',
+      pass: 'test',
+      host: '127.0.0.1',
+      port: '38332',
+    };
+  
+    const rpc = new RpcClient(config);
+
+    function getWallet(name) {
+        try {
+        name = process.argv[3]
+        console.log(name)
+        console.log(rpc.getWallet(name))
+            
+        } catch (error) {
+            console.log(error);
+        }  
+        
+    }
+  
+    getWallet();
+};
+
+
+module.exports = {create, get}

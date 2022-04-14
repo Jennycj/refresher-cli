@@ -13,6 +13,7 @@
   "author": "Jennifer Ezeobi",
   "license": "MIT",
   "dependencies": {
+    "bcrpc": "^0.4.0",
     "bitcoind-rpc": "^0.9.1",
     "commander": "^9.1.0"
   }

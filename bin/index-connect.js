@@ -1,7 +1,7 @@
-var run = function() {
-  var RpcClient = require('bitcoind-rpc');
+const run = function() {
+  const RpcClient = require('bitcoind-rpc');
 
-  var config = {
+  const config = {
     protocol: 'http',
     user: 'test',
     pass: 'test',
@@ -9,7 +9,7 @@ var run = function() {
     port: '38332',
   };
 
-  var rpc = new RpcClient(config);
+  const rpc = new RpcClient(config);
 
   function showNewTransactions() {
     rpc.getRawMemPool(function (err, ret) {
