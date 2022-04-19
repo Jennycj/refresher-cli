@@ -13,8 +13,15 @@
   "author": "Jennifer Ezeobi",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcrpc": "^0.4.0",
+    "bip32": "^3.0.1",
+    "bip39": "^3.0.4",
     "bitcoind-rpc": "^0.9.1",
-    "commander": "^9.1.0"
+    "bitcoinjs-lib": "^6.0.1",
+    "coinselect": "^3.1.12",
+    "commander": "^9.1.0",
+    "inquirer": "^8.2.2",
+    "tiny-secp256k1": "^2.2.1"
   }
 }

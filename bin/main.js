@@ -1,68 +1,49 @@
 const RpcAgent = require('bcrpc');
-const { create } = require('./index-createtx');
-agent = new RpcAgent({port: 38332, user: 'test', pass: 'test'});
+agent = new RpcAgent({port: 18332, user: 'test', pass: 'test'});
 
-// agent.getBlockCount(function (err, blockCount) {
-//   if (err)
-//     throw Error(JSON.stringify(err));
-//   console.log(blockCount.result);
-//   agent.getBlockHash(blockCount.result, function (err, hash) {
-//     if (err)
-//       throw Error(JSON.stringify(err));
-//     console.log(hash.result);
-//   })
-// });
-// agent.createWallet("sam")
+const ecc = require('tiny-secp256k1')
+const { generateMnemonic, mnemonicToSeedSync } = require('bip39')
+const { BIP32Factory } = require('bip32')
+const { payments, Psbt, bip32, networks } = require("bitcoinjs-lib");
+const coinselect = require("coinselect");
 
-const list = function() {
-  const listWallet  = () => {
-    agent.listWallets(function(err, listWallets) {
-        if (err){
-            console.log(err.message)
-        }
-        console.log(listWallets)
-    })
-  } 
-    listWallet()
-}
+const { fromSeed } = BIP32Factory(ecc)
 
-const info = function() {
-  const walletInfo  = () => {
-    agent.getWalletInfo(function(err, getWalletInfo) {
-        if (err){
-            console.log(err.message)
-        }
-        console.log(getWalletInfo)
-    })
-  } 
-    walletInfo()
-}
 
-const get = function() {
-  const gettxout  = () => {
-    agent.getTxOut(function(err, getTxOut) {
-        if (err){
-            console.log(err.message)
-        }
-        console.log(getTxOut)
-    })
-  } 
-  gettxout ()
-}
+const CreateMnemonic = function() {
+    async function generatexpub() {
+        const mnemonic = generateMnemonic(256)
+        console.log(mnemonic)
+        const seed = mnemonicToSeedSync(mnemonic)
+        const privateKey = fromSeed(seed, networks.testnet)
+        console.log(privateKey) 
 
-const wallet = function() {
-
-    function createwallet(name) {
-        try {
-            name = process.argv[3];
-            console.log(name.toString());
-            agent.createWallet(name.toString())
-            return;
-        } catch (error) {
-            console.log(error.message)
-        }
+        const derivationPath = "m/84'/0'/0'"; // P2WPKH
+        const child = privateKey.derivePath(derivationPath).neutered()
+            const xpub = child.toBase58();
+            console.log(xpub)
+            return xpub;     
     }
-    createwallet();    
+    generatexpub()
 }
 
-module.exports = {list, wallet, info, get}
+
+// const wallet = function() {
+
+//     function createwallet(name) {
+//         try {
+//             name = process.argv[3];
+            // console.log(name.toString());
+//             if(!name) {
+//                 return "error: Enter a wallet name to proceed"
+//             }
+//             agent.createWallet(name.toString())
+//             return;
+//         } catch (error) {
+//             console.log(error.message)
+//         }
+//     }
+//     createwallet();    
+// }
+
+module.exports = {CreateMnemonic};
