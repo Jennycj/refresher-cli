@@ -2,7 +2,10 @@
 
 const cli = require("commander")
 const pkg = require("../package.json")
-const {list, getMasterPrivateKey, CreateMnemonic} = require("./main")
+const { CreateMnemonic, createAddress} = require("./main")
+const database = require("../db/index")
+
+database()
 
 cli
  .name("refresher-cli")
@@ -14,5 +17,9 @@ cli
 cli.command("createmnemonic")
    .description("create a mnemonic")
    .action(CreateMnemonic())
+
+cli.command("createaddress")
+   .description("create an address for transactions")
+   .action(createAddress())
 
 
