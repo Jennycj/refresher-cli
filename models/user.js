@@ -10,6 +10,10 @@ const userSchema = new Schema({
         type:  Schema.Types.Mixed,
         required: true,
     },
+    masterFingerprint: {
+        type: Schema.Types.Mixed,
+        required: true,
+    },
     xpub: {
         type: String,
         required: true,
