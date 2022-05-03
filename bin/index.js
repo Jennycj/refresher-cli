@@ -3,7 +3,8 @@
 const cli = require("commander")
 const pkg = require("../package.json")
 // const { CreateMnemonic, createAddress, txScript} = require("./main")
-const {createAddress} = require("./main")
+// const {CreateMnemonic} = require("./main")
+const {createTransaction} = require("./signtx")
 const database = require("../db/index")
 
 database()
@@ -19,9 +20,13 @@ cli
 //    .description("create a mnemonic")
 //    .action(CreateMnemonic())
 
-cli.command("createaddress")
+// cli.command("createaddress")
+//    .description("create an address for transactions")
+//    .action(createAddress())
+
+cli.command("createtx")
    .description("create an address for transactions")
-   .action(createAddress())
+   .action(createTransaction())
 
 // cli.command("create")
 //    .description("create an address for transactions")
