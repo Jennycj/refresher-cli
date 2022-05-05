@@ -16,32 +16,36 @@ const CreateMnemonic = function() {
     
         async function generatexpub() {
             console.log("see me")
-            const findUser = await User.find();
+            // const findUser = await User.find();
             console.log("here too")
             const derivationPath = "m/48'/1'/0'/2'"; // P2WSH(testnet)
 
-            if(findUser.length < 1){    
-                const mnemonic = generateMnemonic(256)
+            // if(findUser.length < 1){    
+                // const mnemonic = generateMnemonic(256)
+                const mnemonic = 'enlist organ trial depart remain super race betray axis net nice skate pelican liquid build annual skill summer claw street stick motor witness sphere'
                 const seed = mnemonicToSeedSync(mnemonic)
 
                 let privateKey = fromSeed(seed, network)
                 let xpriv = privateKey.toBase58()
+                let privKey = privateKey.privateKey
                 const masterFingerprint = privateKey.fingerprint;
                 const child = privateKey.derivePath(derivationPath).neutered()
                 const xpub = child.toBase58();
+                console.log('privKey', privKey)
+                console.log(privKey.toString('hex'))
 
-                const user = new User({
-                    mnemonic: mnemonic,
-                    privateKey: privateKey,
-                    masterFingerprint: masterFingerprint,
-                    xpriv: xpriv,
-                    xpub: xpub
-                })
-               await user.save()
-               return;     
-            } else {
-                console.log("You have already created your mnemonic!")
-            }
+            //     const user = new User({
+            //         mnemonic: mnemonic,
+            //         privateKey: privateKey,
+            //         masterFingerprint: masterFingerprint,
+            //         xpriv: xpriv,
+            //         xpub: xpub
+            //     })
+            //    await user.save()
+            //    return;     
+            // } else {
+            //     console.log("You have already created your mnemonic!")
+            // }
             return;
         }
         generatexpub()
@@ -62,14 +66,17 @@ const CreateMnemonic = function() {
 //                 const seed = mnemonicToSeedSync(mnemonic)
 
 //                 const privateKey = fromSeed(seed, network)
+//                 let xpriv = privateKey.toBase58()
+//                 privateKey.privateKey
 //                 const masterFingerprint = privateKey.fingerprint;
 //                 const child = privateKey.derivePath(derivationPath).neutered()
 //                 const xpub = child.toBase58();
 
 //                 const heir = new Heir({
 //                     mnemonic: mnemonic,
-//                     xpriv: privateKey,
+//                     privateKey: privateKey,
 //                     masterFingerprint: masterFingerprint,
+//                     xpriv: xpriv,
 //                     xpub: xpub
 //                 })
 //                await heir.save()
@@ -109,64 +116,65 @@ function generateScript(childPubkey, heirChildPubkey) {
 }
 
 
-// const createAddress = function() {
+const createAddress = function() {
 
-//     try {
-//         const heirXpub = String(process.argv[3])
-//         console.log(heirXpub)
-//         if(heirXpub === undefined) {
-//             console.log("Error! please enter your heir's extended public key after the 'createaddress' command")
-//             throw Errorr
-//         } else{
+    try {
+        const heirXpub = String(process.argv[3])
+        console.log(heirXpub)
+        if(heirXpub === undefined) {
+            console.log("Error! please enter your heir's extended public key after the 'createaddress' command")
+            throw Errorr
+        } else{
 
-//             async function generateAddress() {
-//                 const findUser = await User.find()
-//                 const addresses = findUser[0].addresses
-//                 console.log(addresses.length)
-//                 const num = addresses.length >1? addresses.length-=1 : 1
-//                 console.log(num)
-//                 const derivationPath = `0/${num}`
-//                 console.log(findUser)
-//                 if(findUser.length < 1) {
-//                     console.log("You have to create your mnemonics first! Use the 'createmnemonic' command to do this.")
-//                     return;
-//                   } else {
-//                     xpub = findUser[0].xpub;
-//                     console.log(xpub)
-//                     const node = bip32.fromBase58(xpub, network)
-//                     console.log(node)
-//                     const childPubkey =  node.derivePath(derivationPath).publicKey
-//                     console.log("ChildPubKey: ", childPubkey.toString('58'))
-//                     const heirNode = bip32.fromBase58(heirXpub, network)
-//                     const heirChildPubkey = heirNode.derivePath(derivationPath).publicKey
-//                     console.log("HeriPubKey: ", heirChildPubkey)
+            async function generateAddress() {
+                const findUser = await User.find()
+                const addresses = findUser[0].addresses
+                console.log(addresses.length)
+                const num = addresses.length >1? addresses.length-=1 : 1
+                console.log(num)
+                const derivationPath = `0/${num}`
+                console.log(findUser)
+                if(findUser.length < 1) {
+                    console.log("You have to create your mnemonics first! Use the 'createmnemonic' command to do this.")
+                    return;
+                  } else {
+                    xpub = findUser[0].xpub;
+                    console.log(xpub)
+                    const node = bip32.fromBase58(xpub, network)
+                    console.log(node)
+                    const childPubkey =  node.derivePath(derivationPath).publicKey
+                    // console.log("ChildPubKey: ", childPubkey.toString('58'))
+                    const heirNode = bip32.fromBase58(heirXpub, network)
+                    const heirChildPubkey = heirNode.derivePath(derivationPath).publicKey
+                    console.log("HeriPubKey: ", heirChildPubkey)
 
-                    // let witnessScript = generateScript(childPubkey, heirChildPubkey);
+                    let witnessScript = generateScript(childPubkey, heirChildPubkey);
 
 
-                    // const address = payments.p2wsh({
-                    //     pubkeys: [childPubkey, heirChildPubkey],
-                    //     redeem: { output: witnessScript, network: networks.testnet },
-                    //     network: networks.testnet,
-                    // });
+                    const address = payments.p2wsh({
+                        pubkeys: [childPubkey, heirChildPubkey],
+                        redeem: { output: witnessScript, network: networks.testnet },
+                        network: networks.testnet,
+                    });
 
-                    // witnessScript = witnessScript.toString('hex')
-                    // console.log(address, witnessScript);
-                    // findUser[0].addresses = {address, witnessScript};
-                    // findUser[0].save()
-//                     return;
-//                 }
-//             }
-//             generateAddress()
-//         }
-//     }catch (error) {
-//         console.log(error)
-//     }
-// }
+                    witnessScript = witnessScript.toString('hex')
+                    console.log(address, witnessScript);
+                    findUser[0].addresses = {address, witnessScript};
+                    findUser[0].save()
+                    return;
+                }
+            }
+            generateAddress()
+        }
+    }catch (error) {
+        console.log(error)
+    }
+}
 
-function generateChilPubKey(user) {
+async function generateChilPubKey() {
+    const user = await Heir.find()
     const addresses = user[0].addresses
-    const num = addresses.length -=1
+    const num = addresses.length >1? addresses.length-=1 : 1
     const derivationPath = `0/${num}`
     console.log(user)
     if(user.length < 1) {
@@ -178,8 +186,11 @@ function generateChilPubKey(user) {
         const node = bip32.fromBase58(xpub, network)
         const child = node.derivePath(derivationPath)
         const childPublickey = child.publicKey;
-        console.log(childPublickey);
-        return childPublickey;
+        console.log("child", child.toBase58());
+        console.log("pubkey", childPublickey.toString('hex'));
+        user[0].childPubKey = child
+        await user[0].save()
+        return [child, childPublickey]
     }
 }
 

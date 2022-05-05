@@ -6,7 +6,7 @@ const heirSchema = new Schema({
         type: String,
         required: true,
     },
-    xpriv: {
+    privateKey: {
         type:  Schema.Types.Mixed,
         required: true,
     },
@@ -14,9 +14,16 @@ const heirSchema = new Schema({
         type: Schema.Types.Mixed,
         required: true,
     },
+    xpriv: {
+        type: String,
+        required: true,
+    },
     xpub: {
         type: String,
         required: true,
+    },
+    childPubKey: {
+        type: Array
     },
     addresses: {
         type: Array

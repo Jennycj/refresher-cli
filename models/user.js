@@ -22,6 +22,9 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    childPubKey: {
+        type: Array
+    },
     addresses: {
         type: Array
     }
