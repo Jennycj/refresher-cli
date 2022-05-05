@@ -5,8 +5,8 @@ const pkg = require("../package.json")
 // const { CreateMnemonic, createAddress, txScript} = require("./main")
 // const {CreateMnemonic} = require("./main")
 // const {createTransaction} = require("./signtx")
-// const {createTransaction} = require("./tx")
-const {broadcastTransaction} = require("./tx")
+const {createTransaction} = require("./tx")
+// const {broadcastTransaction} = require("./tx")
 const database = require("../db/index")
 
 database()
@@ -26,13 +26,13 @@ cli
 //    .description("create an address for transactions")
 //    .action(createAddress())
 
-// cli.command("createtx")
-//    .description("create an address for transactions")
-//    .action(createTransaction())
-
-cli.command("createkey")
+cli.command("createtx")
    .description("create an address for transactions")
-   .action(broadcastTransaction())
+   .action(createTransaction())
+
+// cli.command("createkey")
+//    .description("create an address for transactions")
+//    .action(broadcastTransaction())
 
 // cli.command("create")
 //    .description("create an address for transactions")
