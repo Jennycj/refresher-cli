@@ -15,11 +15,11 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 //create and sign transaction
-
+const base_url = "https://blockstream.info/testnet/api"
 async function createTransaction() {
     const testNetVersionPrefix = 0xef;
     const sequence = encode({ seconds: 7168 });
-    const base_url = process.env.BASE_URL
+  
     //p2wsh address
     const addr =
     //   'tb1qtlfn8sh32asacx6kcvxr5wmsmqf7vzvul8s83cadw2h3rh8dxmqshzyr0j';
@@ -99,7 +99,6 @@ async function createTransaction() {
 
 async function broadcastTransaction(txHex) {
     txHex = "02000000000101a290a1ffee1ffd1263d815facb960b2646d3e83aeb0404d63dcafe4ab3633d9901000000000e00400001d007000000000000220020cabb03a86f7219def6f34264b632e570e964706e0a057ded430df2f8bac229b902483045022100c4446e70611cc201865607b544cc06862b1858d018a71cd640348d0a99b3de7102204facc3f738d972f7f587465e8499a58a6b7a1b6234ea9d97be7cc078c62f91e2014e21031f47cc98466df5329c9639ae7ef4725560b49db3c6a94ceb3014bc00d9ee25fdac73642103e2c46b94eefb6f44d9adb90ca128f92c25a2a2cc3b015e78bbcee0132b841b55ad030e0040b26800000000"
-    const base_url = process.env.BASE_URL;
     const url = `${base_url}/tx/`;
 
     const resp = await axios.post(url, txHex)
@@ -182,8 +181,6 @@ function witnessStackToScriptWitness(witness) {
 }
 
 async function getTransactionsOnAnAddress(address) {
-    const base_url = process.env.BASE_URL
-
     const url = `${base_url}/address/${address}/txs`;
     const resp = await axios.get(url)
 
@@ -191,8 +188,6 @@ async function getTransactionsOnAnAddress(address) {
 }
 
 async function getUTXOfromAddress(address) {
-    const base_url = process.env.BASE_URL
-
     const url = `${base_url}/address/${address}/utxo`;
     // console.log(url);
     const resp = await axios.get(url)

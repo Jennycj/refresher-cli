@@ -1,9 +1,10 @@
-To ready the app,
-cd into the app directory 
 
-run ```npm i .``` to make the file executable.
+Navigate into the root directory of the project
 
-run ```refresher-cli createtx``` to run the command for creating transaction
+run ```npm install``` to install all app dependencies
 
+run ```npm install -g .``` to install the CLI globally on your machine
 
-Then use any of the commands in the index.js file to run the different functions
+run ```refresher-cli -h``` to get the list of commands available on the CLI
+
+For example, ```refresher-cli createtx` is used to create transaction.
